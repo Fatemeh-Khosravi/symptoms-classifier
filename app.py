@@ -6,12 +6,12 @@ model = joblib.load("model.pkl")
 vectorizer = joblib.load("vectorizer.pkl")
 
 # Set up Streamlit app
-st.set_page_config(page_title="Text Classifier", page_icon="🧠")
-st.title("🧠 Text Classification App")
-st.write("Enter some text and get a predicted label!")
+st.set_page_config(page_title="Symptoms Diagnosis Classifier", page_icon="🩺")
+st.title("🩺 Symptoms Diagnosis Classifier")
+st.write("Enter your symptoms or health text and get a predicted diagnosis!")
 
 # User input
-user_input = st.text_area("Enter text here:")
+user_input = st.text_area("Enter symptoms here:")
 
 # Predict button
 if st.button("Predict"):
@@ -20,4 +20,4 @@ if st.button("Predict"):
     else:
         input_vec = vectorizer.transform([user_input])
         prediction = model.predict(input_vec)[0]
-        st.success(f"✅ Predicted Label: **{prediction}**")
+        st.success(f"✅ Predicted Diagnosis: **{prediction}**")
