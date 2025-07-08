@@ -1,5 +1,14 @@
 import streamlit as st
 import joblib
+from spellchecker import SpellChecker
+
+# Initialize spell checker
+spell = SpellChecker()
+
+def correct_text(text):
+    words = text.split()
+    corrected_words = [spell.correction(word) for word in words]
+    return " ".join(corrected_words)
 
 # Load saved model and vectorizer
 model = joblib.load("model.pkl")
@@ -18,6 +27,8 @@ if st.button("Predict"):
     if user_input.strip() == "":
         st.warning("Please enter some text.")
     else:
-        input_vec = vectorizer.transform([user_input])
+        corrected_input = correct_text(user_input)
+        input_vec = vectorizer.transform([corrected_input])
         prediction = model.predict(input_vec)[0]
         st.success(f"✅ Predicted Diagnosis: **{prediction}**")
+        st.info(f"Corrected input used for prediction: {corrected_input}")
